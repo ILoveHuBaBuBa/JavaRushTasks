@@ -6,6 +6,8 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
 
+    private Snake snake;
+
     @Override
     public void initialize() {
         setScreenSize(WIDTH, HEIGHT);
@@ -17,8 +19,10 @@ public class SnakeGame extends Game {
                 setCellColor(i, j, Color.DARKSEAGREEN);
             }
         }
+        snake.draw(this);
     }
     private void createGame() {
+        snake = new Snake(WIDTH / 2, HEIGHT / 2);
         drawScene();
     }
 }
