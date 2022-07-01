@@ -5,6 +5,7 @@ import com.javarush.engine.cell.*;
 public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    private static final int GOAL = 28;
 
     private Snake snake;
     private Apple apple;
@@ -25,6 +26,9 @@ public class SnakeGame extends Game {
         }
         if(!snake.isAlive) {
             gameOver();
+        }
+        if(snake.getLength() > GOAL){
+            win();
         }
         drawScene();
     }
@@ -63,6 +67,11 @@ public class SnakeGame extends Game {
         stopTurnTimer();
         isGameStopped = true;
         showMessageDialog(Color.NONE, "Game Over", Color.RED, 75);
+    }
+    private void win() {
+        stopTurnTimer();
+        isGameStopped = true;
+        showMessageDialog(Color.NONE, "You Win", Color.GREEN, 75);
     }
     private void createNewApple() {
         apple = new Apple(getRandomNumber(WIDTH), getRandomNumber(HEIGHT));
