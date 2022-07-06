@@ -10,6 +10,7 @@ public class SnakeGame extends Game {
     private Snake snake;
     private Apple apple;
     private int turnDelay;
+    private int score;
     private boolean isGameStopped;
 
     @Override
@@ -22,6 +23,8 @@ public class SnakeGame extends Game {
     public void onTurn(int step) {
         snake.move(apple);
         if(!apple.isAlive) {
+            setScore(score += 5);
+            setTurnTimer(turnDelay -= 10);
             createNewApple();
         }
         if(!snake.isAlive) {
@@ -43,6 +46,8 @@ public class SnakeGame extends Game {
             snake.setDirection(Direction.UP);
         } else if(key.equals(Key.DOWN)) {
             snake.setDirection(Direction.DOWN);
+        } else if(key.equals((Key.SPACE)) && isGameStopped) {
+            createGame();
         }
     }
 
@@ -56,6 +61,8 @@ public class SnakeGame extends Game {
         apple.draw(this);
     }
     private void createGame() {
+        score = 0;
+        setScore(score);
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
         createNewApple();
         turnDelay = 300;
@@ -74,7 +81,13 @@ public class SnakeGame extends Game {
         showMessageDialog(Color.NONE, "You Win", Color.GREEN, 75);
     }
     private void createNewApple() {
-        apple = new Apple(getRandomNumber(WIDTH), getRandomNumber(HEIGHT));
+        while(true){
+            apple = new Apple(getRandomNumber(WIDTH), getRandomNumber(HEIGHT));
+            if(!snake.checkCollision(apple)) {
+                return;
+            }
+        }
     }
 }
 
+//--module-path "D:\MyProject\JavaRushTasks\lib\javafx-sdk-17.0.2\lib" --add-modules javafx.controls,javafx.fxml
